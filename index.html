@@ -1,0 +1,864 @@
+```html
+<!DOCTYPE html>
+<html lang="pt-BR" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Papelaria Coité</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts: Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#fff1f2',
+                            100: '#ffe4e6',
+                            200: '#fecdd3',
+                            300: '#fda4af',
+                            400: '#fb7185',
+                            500: '#f43f5e', // Vibrant Coral Pink
+                            600: '#e11d48',
+                            700: '#be123c',
+                        },
+                        plush: {
+                            50: '#faf5ff',
+                            100: '#f3e8ff',
+                            200: '#e9d5ff',
+                            500: '#a855f7', // Soft Violet
+                            600: '#9333ea',
+                        },
+                        paper: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#10b981', // Emerald Mint
+                        },
+                        surface: {
+                            bg: '#fcf8f8',
+                            card: '#ffffff',
+                            sidebar: '#ffffff',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'soft': '0 10px 30px -5px rgba(244, 63, 94, 0.08)',
+                        'glow': '0 0 20px rgba(244, 63, 94, 0.25)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #fcf8f8;
+        }
+        
+        /* Glassmorphism subtle effect */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(251, 113, 133, 0.12);
+        }
+
+        .gradient-brand {
+            background: linear-gradient(135deg, #f43f5e 0%, #a855f7 100%);
+        }
+
+        .gradient-card-pink {
+            background: linear-gradient(135deg, #fff1f2 0%, #ffffff 100%);
+        }
+
+        .gradient-card-purple {
+            background: linear-gradient(135deg, #faf5ff 0%, #ffffff 100%);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #fecdd3; border-radius: 99px; }
+        ::-webkit-scrollbar-thumb:hover { background: #fb7185; }
+
+        /* Smooth tab animations */
+        .tab-btn.active {
+            background-color: #f43f5e;
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(244, 63, 94, 0.25);
+        }
+    </style>
+</head>
+<body class="h-full text-slate-800 antialiased overflow-hidden flex">
+
+    <!-- Sidebar -->
+    <aside id="sidebar" class="bg-white w-64 h-full border-r border-pink-100/80 flex-shrink-0 transition-all duration-300 transform -translate-x-full md:translate-x-0 fixed md:relative z-30 flex flex-col justify-between shadow-lg md:shadow-none">
+        <div>
+            <!-- Logo Section -->
+            <div class="h-20 flex items-center justify-between px-6 border-b border-pink-50">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-2xl gradient-brand flex items-center justify-center text-white shadow-md shadow-brand-500/20">
+                        <i class="fa-solid fa-wand-magic-sparkles text-lg"></i>
+                    </div>
+                    <div>
+                        <h1 class="font-extrabold text-lg text-slate-900 tracking-tight leading-none">Papelaria</h1>
+                        <span class="text-xs font-bold text-brand-500 uppercase tracking-widest">Coité & Pelúcias</span>
+                    </div>
+                </div>
+                <button id="closeSidebar" class="md:hidden text-slate-400 hover:text-slate-600 p-1">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="p-4 space-y-1.5">
+                <a href="#" class="flex items-center gap-3.5 px-4 py-3 rounded-xl bg-brand-50 text-brand-600 font-semibold text-sm transition-all shadow-sm">
+                    <i class="fa-solid fa-chart-pie text-lg text-brand-500"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#produtos-section" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-600 hover:bg-pink-50/60 hover:text-brand-600 font-medium text-sm transition-all">
+                    <i class="fa-solid fa-box-open text-lg text-slate-400"></i>
+                    <span>Catálogo de Produtos</span>
+                </a>
+                <a href="#" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-600 hover:bg-pink-50/60 hover:text-brand-600 font-medium text-sm transition-all">
+                    <i class="fa-solid fa-heart text-lg text-slate-400"></i>
+                    <span>Coleção Pelúcias</span>
+                </a>
+                <a href="#" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-600 hover:bg-pink-50/60 hover:text-brand-600 font-medium text-sm transition-all">
+                    <i class="fa-solid fa-receipt text-lg text-slate-400"></i>
+                    <span>Vendas</span>
+                </a>
+                <a href="#" class="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-600 hover:bg-pink-50/60 hover:text-brand-600 font-medium text-sm transition-all">
+                    <i class="fa-solid fa-users text-lg text-slate-400"></i>
+                    <span>Clientes</span>
+                </a>
+            </nav>
+        </div>
+
+        <!-- Store Status Card & Settings -->
+        <div class="p-4 space-y-3 border-t border-pink-50">
+            <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-100 flex items-center justify-between">
+                <div class="flex items-center gap-2.5">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span class="text-xs font-semibold text-slate-700">Loja Aberta</span>
+                </div>
+                <span class="text-[10px] bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full font-bold">Online</span>
+            </div>
+
+            <a href="#" class="flex items-center gap-3 px-4 py-2.5 text-slate-600 hover:bg-slate-100 rounded-xl text-sm font-medium transition-all">
+                <i class="fa-solid fa-gear text-slate-400"></i>
+                <span>Configurações</span>
+            </a>
+            <a href="#" class="flex items-center gap-3 px-4 py-2.5 text-rose-600 hover:bg-rose-50 rounded-xl text-sm font-medium transition-all">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                <span>Sair</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- Overlay Mobile -->
+    <div id="sidebarOverlay" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-20 hidden md:hidden"></div>
+
+    <!-- Main Outer Container -->
+    <div class="flex-1 flex flex-col h-full overflow-hidden">
+
+        <!-- Top Navigation Header -->
+        <header class="h-20 bg-white/80 backdrop-blur-md border-b border-pink-100/80 px-4 sm:px-8 flex items-center justify-between z-10 flex-shrink-0">
+            <div class="flex items-center gap-4 flex-1 max-w-md">
+                <button id="openSidebar" class="md:hidden text-slate-600 hover:text-brand-500 p-2 rounded-xl border border-slate-200">
+                    <i class="fa-solid fa-bars text-lg"></i>
+                </button>
+
+                <!-- Dynamic Live Search -->
+                <div class="relative w-full hidden sm:block">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                    <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="Buscar produtos de papelaria ou pelúcias..." 
+                        class="w-full pl-10 pr-4 py-2.5 bg-slate-100/80 focus:bg-white text-sm rounded-2xl border border-transparent focus:border-brand-300 focus:ring-4 focus:ring-brand-100 outline-none transition-all">
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3 sm:gap-5">
+                <!-- Notifications Dropdown Trigger -->
+                <div class="relative">
+                    <button id="notifBtn" onclick="toggleNotifications()" class="relative p-2.5 rounded-2xl bg-slate-50 hover:bg-pink-50 text-slate-600 hover:text-brand-500 transition-all border border-slate-100">
+                        <i class="fa-regular fa-bell text-lg"></i>
+                        <span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-brand-500 ring-2 ring-white"></span>
+                    </button>
+                    <!-- Notifications Dropdown Box -->
+                    <div id="notifMenu" class="hidden absolute right-0 mt-3 w-80 bg-white rounded-2xl shadow-xl border border-pink-100 p-4 z-50">
+                        <div class="flex justify-between items-center mb-3">
+                            <h4 class="font-bold text-sm text-slate-800">Notificações</h4>
+                            <span class="text-[10px] bg-brand-100 text-brand-600 px-2 py-0.5 rounded-full font-bold">3 novas</span>
+                        </div>
+                        <div class="space-y-2 text-xs text-slate-600">
+                            <div class="p-2.5 bg-pink-50/50 rounded-xl border border-pink-100/50">
+                                <p class="font-semibold text-slate-800">Bem-vindo ao Novo Dashboard!</p>
+                                <p class="text-slate-500 mt-0.5">Design renovado com suporte a pelúcias e artigos escolar.</p>
+                            </div>
+                            <div class="p-2.5 bg-purple-50/50 rounded-xl border border-purple-100/50">
+                                <p class="font-semibold text-slate-800">Catálogo Atualizado</p>
+                                <p class="text-slate-500 mt-0.5">8 itens prontos para gerenciamento rápido.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- User Profile -->
+                <div class="flex items-center gap-3 pl-2 sm:pl-4 border-l border-slate-100">
+                    <div class="w-10 h-10 rounded-2xl gradient-brand p-0.5 shadow-md shadow-brand-500/10">
+                        <div class="w-full h-full bg-white rounded-[14px] flex items-center justify-center font-extrabold text-brand-600 text-sm">
+                            PC
+                        </div>
+                    </div>
+                    <div class="hidden sm:block">
+                        <p class="font-bold text-sm text-slate-800 leading-tight">Papelaria Coité</p>
+                        <p class="text-xs text-slate-400 font-medium">Administrador</p>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Dashboard Scrollable Area -->
+        <main class="flex-1 overflow-y-auto p-4 sm:p-8 space-y-8">
+
+            <!-- Hero Welcome Header -->
+            <div class="glass-panel p-6 sm:p-8 rounded-3xl border border-pink-100 shadow-soft relative overflow-hidden flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                <div class="relative z-10 max-w-xl">
+                    <span class="px-3 py-1 bg-brand-100 text-brand-700 text-xs font-bold rounded-full inline-block mb-3">
+                        ✨ Painel Administrativo 2026
+                    </span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+                        Gestão da <span class="text-transparent bg-clip-text gradient-brand">Papelaria Coité</span>
+                    </h2>
+                    <p class="text-slate-500 text-sm mt-2 leading-relaxed">
+                        Acompanhe o faturamento zerado, visualize produtos cadastrados e gerencie seu catálogo de papelaria e ursos de pelúcia em um só lugar.
+                    </p>
+                </div>
+                <div class="flex items-center gap-3 w-full sm:w-auto relative z-10">
+                    <button onclick="openAddProductModal()" class="w-full sm:w-auto bg-brand-500 hover:bg-brand-600 text-white px-5 py-3 rounded-2xl font-bold text-sm transition-all shadow-lg shadow-brand-500/25 flex items-center justify-center gap-2 hover:-translate-y-0.5">
+                        <i class="fa-solid fa-plus"></i>
+                        <span>Novo Produto</span>
+                    </button>
+                </div>
+                <!-- Decorative background elements -->
+                <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-brand-200/30 rounded-full blur-2xl pointer-events-none"></div>
+                <div class="absolute right-40 -top-10 w-32 h-32 bg-plush-200/30 rounded-full blur-2xl pointer-events-none"></div>
+            </div>
+
+            <!-- Stats KPI Cards Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                
+                <!-- KPI Card 1: Faturamento -->
+                <div class="bg-white p-6 rounded-3xl border border-pink-100/80 shadow-soft hover:shadow-md transition-all group">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Faturamento Hoje</p>
+                            <h3 class="text-2xl font-extrabold text-slate-900 mt-2">R$ 0,00</h3>
+                        </div>
+                        <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-dollar-sign"></i>
+                        </div>
+                    </div>
+                    <div class="mt-4 flex items-center gap-2 text-xs text-slate-500">
+                        <span class="px-2 py-0.5 rounded-lg bg-slate-100 text-slate-600 font-bold">0,0%</span>
+                        <span>sem vendas registradas</span>
+                    </div>
+                </div>
+
+                <!-- KPI Card 2: Pedidos -->
+                <div class="bg-white p-6 rounded-3xl border border-pink-100/80 shadow-soft hover:shadow-md transition-all group">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Pedidos Recebidos</p>
+                            <h3 class="text-2xl font-extrabold text-slate-900 mt-2">0</h3>
+                        </div>
+                        <div class="w-12 h-12 rounded-2xl bg-sky-50 text-sky-600 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-bag-shopping"></i>
+                        </div>
+                    </div>
+                    <div class="mt-4 flex items-center gap-2 text-xs text-slate-500">
+                        <span class="px-2 py-0.5 rounded-lg bg-slate-100 text-slate-600 font-bold">0,0%</span>
+                        <span>aguardando novo pedido</span>
+                    </div>
+                </div>
+
+                <!-- KPI Card 3: Pelúcias Vendidas -->
+                <div class="bg-white p-6 rounded-3xl border border-pink-100/80 shadow-soft hover:shadow-md transition-all group">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Pelúcias Vendidas</p>
+                            <h3 class="text-2xl font-extrabold text-slate-900 mt-2">0</h3>
+                        </div>
+                        <div class="w-12 h-12 rounded-2xl bg-plush-50 text-plush-500 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-paw"></i>
+                        </div>
+                    </div>
+                    <div class="mt-4 flex items-center gap-2 text-xs text-slate-500">
+                        <span class="px-2 py-0.5 rounded-lg bg-slate-100 text-slate-600 font-bold">0 un</span>
+                        <span>estoque de pelúcias pronto</span>
+                    </div>
+                </div>
+
+                <!-- KPI Card 4: Novos Clientes -->
+                <div class="bg-white p-6 rounded-3xl border border-pink-100/80 shadow-soft hover:shadow-md transition-all group">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Novos Clientes</p>
+                            <h3 class="text-2xl font-extrabold text-slate-900 mt-2">0</h3>
+                        </div>
+                        <div class="w-12 h-12 rounded-2xl bg-brand-50 text-brand-500 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+                    </div>
+                    <div class="mt-4 flex items-center gap-2 text-xs text-slate-500">
+                        <span class="px-2 py-0.5 rounded-lg bg-slate-100 text-slate-600 font-bold">0</span>
+                        <span>nenhum cliente cadastrado hoje</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sales Analytics Chart Widget -->
+            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-pink-100/80 shadow-soft">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                            <i class="fa-solid fa-chart-simple text-brand-500"></i> Desempenho de Vendas
+                        </h3>
+                        <p class="text-xs text-slate-400 mt-0.5">Histórico semanal zerado para novo ciclo de acompanhamento.</p>
+                    </div>
+
+                    <div class="flex items-center gap-2 bg-slate-100 p-1 rounded-2xl self-start sm:self-auto">
+                        <button class="px-3 py-1.5 text-xs font-bold rounded-xl bg-white text-slate-800 shadow-sm">Esta Semana</button>
+                        <button class="px-3 py-1.5 text-xs font-medium rounded-xl text-slate-500 hover:text-slate-800">Este Mês</button>
+                        <button class="px-3 py-1.5 text-xs font-medium rounded-xl text-slate-500 hover:text-slate-800">Este Ano</button>
+                    </div>
+                </div>
+
+                <!-- Clean Zeroed Visual Chart -->
+                <div class="h-56 flex items-end justify-between gap-3 sm:gap-6 pt-8 pb-2 border-b border-slate-100">
+                    <!-- Day Bar template -->
+                    <div class="flex-1 flex flex-col items-center gap-3 h-full justify-end group">
+                        <div class="w-full bg-slate-100 rounded-2xl h-2 relative transition-all group-hover:bg-brand-100">
+                            <div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[10px] px-2 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">R$ 0,00</div>
+                        </div>
+                        <span class="text-xs font-medium text-slate-400">Seg</span>
+                    </div>
+                    <div class="flex-1 flex flex-col items-center gap-3 h-full justify-end group">
+                        <div class="w-full bg-slate-100 rounded-2xl h-2 relative transition-all group-hover:bg-brand-100">
+                            <div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[10px] px-2 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">R$ 0,00</div>
+                        </div>
+                        <span class="text-xs font-medium text-slate-400">Ter</span>
+                    </div>
+                    <div class="flex-1 flex flex-col items-center gap-3 h-full justify-end group">
+                        <div class="w-full bg-slate-100 rounded-2xl h-2 relative transition-all group-hover:bg-brand-100">
+                            <div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[10px] px-2 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">R$ 0,00</div>
+                        </div>
+                        <span class="text-xs font-medium text-slate-400">Qua</span>
+                    </div>
+                    <div class="flex-1 flex flex-col items-center gap-3 h-full justify-end group">
+                        <div class="w-full bg-slate-100 rounded-2xl h-2 relative transition-all group-hover:bg-brand-100">
+                            <div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[10px] px-2 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">R$ 0,00</div>
+                        </div>
+                        <span class="text-xs font-medium text-slate-400">Qui</span>
+                    </div>
+                    <div class="flex-1 flex flex-col items-center gap-3 h-full justify-end group">
+                        <div class="w-full bg-brand-200 rounded-2xl h-3 relative transition-all group-hover:bg-brand-500">
+                            <div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-brand-600 text-white text-[10px] px-2 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity font-bold whitespace-nowrap">R$ 0,00 (Hoje)</div>
+                        </div>
+                        <span class="text-xs font-bold text-brand-600">Sex</span>
+                    </div>
+                    <div class="flex-1 flex flex-col items-center gap-3 h-full justify-end group">
+                        <div class="w-full bg-slate-100 rounded-2xl h-2 relative transition-all group-hover:bg-brand-100">
+                            <div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[10px] px-2 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">R$ 0,00</div>
+                        </div>
+                        <span class="text-xs font-medium text-slate-400">Sáb</span>
+                    </div>
+                    <div class="flex-1 flex flex-col items-center gap-3 h-full justify-end group">
+                        <div class="w-full bg-slate-100 rounded-2xl h-2 relative transition-all group-hover:bg-brand-100">
+                            <div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[10px] px-2 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">R$ 0,00</div>
+                        </div>
+                        <span class="text-xs font-medium text-slate-400">Dom</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Products Catalog Section -->
+            <div id="produtos-section" class="space-y-6">
+                <!-- Header with Filter Controls -->
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div>
+                        <h3 class="text-xl font-extrabold text-slate-900 flex items-center gap-2.5">
+                            <i class="fa-solid fa-boxes-stacked text-brand-500"></i> Catálogo Cadastrado
+                        </h3>
+                        <p class="text-xs text-slate-400 mt-0.5">Explore artigos de papelaria delicada e pelúcias aconchegantes.</p>
+                    </div>
+
+                    <!-- Category Pills Filter -->
+                    <div class="flex items-center gap-2 bg-white p-1.5 rounded-2xl border border-pink-100/80 shadow-sm overflow-x-auto">
+                        <button onclick="filterCategory('todos')" id="tab-todos" class="tab-btn active px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap">
+                            Todos (8)
+                        </button>
+                        <button onclick="filterCategory('papelaria')" id="tab-papelaria" class="tab-btn px-4 py-2 rounded-xl text-xs font-bold text-slate-600 hover:text-brand-500 transition-all whitespace-nowrap">
+                            ✏️ Papelaria (4)
+                        </button>
+                        <button onclick="filterCategory('pelucia')" id="tab-pelucia" class="tab-btn px-4 py-2 rounded-xl text-xs font-bold text-slate-600 hover:text-plush-500 transition-all whitespace-nowrap">
+                            🧸 Pelúcias (4)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Products Grid -->
+                <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    
+                    <!-- Product 1: Teddy Gigante -->
+                    <div class="product-card bg-white rounded-3xl p-5 border border-pink-100/80 shadow-soft hover:shadow-lg transition-all group" data-category="pelucia" data-name="urso teddy gigante 80cm">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="bg-plush-100 text-plush-600 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">
+                                🧸 Pelúcia
+                            </span>
+                            <span class="text-[11px] font-semibold text-slate-400">#PEL-001</span>
+                        </div>
+                        <div class="w-full h-40 gradient-card-purple rounded-2xl flex items-center justify-center mb-4 relative overflow-hidden group-hover:scale-[1.02] transition-transform">
+                            <i class="fa-solid fa-bear-hug text-plush-500 text-6xl drop-shadow-sm group-hover:scale-110 transition-transform"></i>
+                            <span class="absolute bottom-2 right-2 bg-white/90 text-slate-700 text-[10px] font-bold px-2 py-0.5 rounded-lg border border-pink-100">80 cm</span>
+                        </div>
+                        <h4 class="font-bold text-slate-800 text-sm truncate">Urso Teddy Gigante 80cm</h4>
+                        <p class="text-xs text-slate-400 mt-1 line-clamp-2">Pelúcia super macia, antialérgica com laço premium.</p>
+                        <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
+                            <div>
+                                <span class="text-[10px] font-bold text-slate-400 block uppercase">Preço</span>
+                                <span class="text-base font-extrabold text-slate-900">R$ 149,90</span>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-[10px] font-bold text-slate-400 block uppercase">Estoque</span>
+                                <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-xl inline-block">12 un</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 2: Caderno Inteligente -->
+                    <div class="product-card bg-white rounded-3xl p-5 border border-pink-100/80 shadow-soft hover:shadow-lg transition-all group" data-category="papelaria" data-name="caderno inteligente a5 pastel">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="bg-brand-100 text-brand-600 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">
+                                ✏️ Papelaria
+                            </span>
+                            <span class="text-[11px] font-semibold text-slate-400">#PAP-014</span>
+                        </div>
+                        <div class="w-full h-40 gradient-card-pink rounded-2xl flex items-center justify-center mb-4 relative overflow-hidden group-hover:scale-[1.02] transition-transform">
+                            <i class="fa-solid fa-book-open text-brand-400 text-6xl drop-shadow-sm group-hover:scale-110 transition-transform"></i>
+                            <span class="absolute bottom-2 right-2 bg-white/90 text-slate-700 text-[10px] font-bold px-2 py-0.5 rounded-lg border border-pink-100">Tamanho A5</span>
+                        </div>
+                        <h4 class="font-bold text-slate-800 text-sm truncate">Caderno Inteligente A5 Pastel</h4>
+                        <p class="text-xs text-slate-400 mt-1 line-clamp-2">Com discos reposicionáveis e folhas de alta gramatura.</p>
+                        <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
+                            <div>
+                                <span class="text-[10px] font-bold text-slate-400 block uppercase">Preço</span>
+                                <span class="text-base font-extrabold text-slate-900">R$ 89,90</span>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-[10px] font-bold text-slate-400 block uppercase">Estoque</span>
+                                <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-xl inline-block">25 un</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 3: Kit Canetas Gel -->
+                    <div class="product-card bg-white rounded-3xl p-5 border border-pink-100/80 shadow-soft hover:shadow-lg transition-all group" data-category="papelaria" data-name="kit canetas gel pastel 12 cores">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="bg-brand-100 text-brand-600 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">
+                                ✏️ Papelaria
+                            </span>
+                            <span class="text-[11px] font-semibold text-slate-400">#PAP-022</span>
+                        </div>
+                        <div class="w-full h-40 bg-amber-50/60 rounded-2xl flex items-center justify-center mb-4 relative overflow-hidden group-hover:scale-[1.02] transition-transform">
+                            <i class="fa-solid fa-pen-fancy text-amber-400 text-6xl drop-shadow-sm group-hover:scale-110 transition-transform"></i>
+                            <span class="absolute bottom-2 right-2 bg-white/90 text-slate-700 text-[10px] font-bold px-2 py-0.5 rounded-lg border border-pink-100">12 Cores</span>
+                        </div>
+                        <h4 class="font-bold text-slate-800 text-sm truncate">Kit Canetas Gel Pastel 12 Cores</h4>
+                        <p class="text-xs text-slate-400 mt-1 line-clamp-2">Escrita fluida, ponta fina 0.5mm e secagem rápida.</p>
+                        <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
+                            <div>
+                                <span class="text-[10px] font-bold text-slate-400 block uppercase">Preço</span>
+                                <span class="text-base font-extrabold text-slate-900">R$ 34,90</span>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-[10px] font-bold text-slate-400 block uppercase">Estoque</span>
+                                <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-xl inline-block">40 un</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 4: Panda Coração -->
+                    <div class="product-card bg-white rounded-3xl p-5 border border-pink-100/80 shadow-soft hover:shadow-lg transition-all group" data-category="pelucia" data-name="pelucia panda coracao 30cm">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="bg-plush-100 text-plush-600 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">
+                                🧸 Pelúcia
+                            </span>
+                            <span class="text-[11px] font-semibold text-slate-400">#PEL-008</span>
+                        </div>
+                        <div class="w-full h-40 gradient-card-pink rounded-2xl flex items-center justify-center mb-4 relative overflow-hidden group-hover:scale-[1.02] transition-transform">
+                            <i class="fa-solid fa-heart text-brand-400 text-6xl drop-shadow-sm group-hover:scale-110 transition-transform"></i>
+                            <span class="absolute bottom-2 right-2 bg-white/90 text-slate-700 text-[10px] font-bold px-2 py-0.5 rounded-lg border border-pink-100">30 cm</span>
+                        </div>
+                        <h4 class="font-bold text-slate-800 text-sm truncate">Pelúcia Panda Coração 30cm</h4>
+                        <p class="text-xs text-slate-400 mt-1 line-clamp-2">Ideal para presentes românticos e carinhosos.</p>
+                        <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
+                            <div>
+                                <span class="text-[10px] font-bold text-slate-400 block uppercase">Preço</span>
+                                <span class="text-base font-extrabold text-slate-900">R$ 59,90</span>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-[10px] font-bold text-slate-400 block uppercase">Estoque</span>
+                                <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-xl inline-block">18 un</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 5: Marca-Texto Soft -->
+                    <div class="product-card bg-white rounded-3xl p-5 border border-pink-100/80 shadow-soft hover:shadow-lg transition-all group" data-category="papelaria" data-name="marca-texto soft pastel c/ 6">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="bg-brand-100 text-brand-600 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">
+                                ✏️ Papelaria
+                            </span>
+                            <span class="text-[11px] font-semibold text-slate-400">#PAP-035</span>
+                        </div>
+                        <div class="w-full h-40 bg-emerald-50/60 rounded-2xl flex items-center justify-center mb-4 relative overflow-hidden group-hover:scale-[1.02] transition-transform">
+                            <i class="fa-solid fa-highlighter text-emerald-400 text-6xl drop-shadow-sm group-hover:scale-110 transition-transform"></i>
+                            <span class="absolute bottom-2 right-2 bg-white/90 text-slate-700 text-[10px] font-bold px-2 py-0.5 rounded-lg border border-pink-100">Set 6 un</span>
+                        </div>
+                        <h4 class="font-bold text-slate-800 text-sm truncate">Marca-Texto Soft Pastel c/ 6</h4>
+                        <p class="text-xs text-slate-400 mt-1 line-clamp-2">Tons delicados que não mancham o verso da folha.</p>
+                        <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
+                            <div>
+                                <span class="text-[10px] font-bold text-slate-400 block uppercase">Preço</span>
+                                <span class="text-base font-extrabold text-slate-900">R$ 22,50</span>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-[10px] font-bold text-slate-400 block uppercase">Estoque</span>
+                                <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-xl inline-block">50 un</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 6: Unicórnio Arco-Íris -->
+                    <div class="product-card bg-white rounded-3xl p-5 border border-pink-100/80 shadow-soft hover:shadow-lg transition-all group" data-category="pelucia" data-name="unicornio arco-iris 40cm">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="bg-plush-100 text-plush-600 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">
+                                🧸 Pelúcia
+                            </span>
+                            <span class="text-[11px] font-semibold text-slate-400">#PEL-012</span>
+                        </div>
+                        <div class="w-full h-40 bg-indigo-50/60 rounded-2xl flex items-center justify-center mb-4 relative overflow-hidden group-hover:scale-[1.02] transition-transform">
+                            <i class="fa-solid fa-wand-magic-sparkles text-indigo-400 text-6xl drop-shadow-sm group-hover:scale-110 transition-transform"></i>
+                            <span class="absolute bottom-2 right-2 bg-white/90 text-slate-700 text-[10px] font-bold px-2 py-0.5 rounded-lg border border-pink-100">40 cm</span>
+                        </div>
+                        <h4 class="font-bold text-slate-800 text-sm truncate">Unicórnio Arco-Íris 40cm</h4>
+                        <p class="text-xs text-slate-400 mt-1 line-clamp-2">Detalhes brilhantes com textura aveludada.</p>
+                        <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
+                            <div>
+                                <span class="text-[10px] font-bold text-slate-400 block uppercase">Preço</span>
+                                <span class="text-base font-extrabold text-slate-900">R$ 74,90</span>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-[10px] font-bold text-slate-400 block uppercase">Estoque</span>
+                                <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-xl inline-block">15 un</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 7: Planner Capa Dura -->
+                    <div class="product-card bg-white rounded-3xl p-5 border border-pink-100/80 shadow-soft hover:shadow-lg transition-all group" data-category="papelaria" data-name="planner anual capa dura 2026">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="bg-brand-100 text-brand-600 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">
+                                ✏️ Papelaria
+                            </span>
+                            <span class="text-[11px] font-semibold text-slate-400">#PAP-048</span>
+                        </div>
+                        <div class="w-full h-40 bg-sky-50/60 rounded-2xl flex items-center justify-center mb-4 relative overflow-hidden group-hover:scale-[1.02] transition-transform">
+                            <i class="fa-solid fa-calendar-days text-sky-400 text-6xl drop-shadow-sm group-hover:scale-110 transition-transform"></i>
+                            <span class="absolute bottom-2 right-2 bg-white/90 text-slate-700 text-[10px] font-bold px-2 py-0.5 rounded-lg border border-pink-100">Edição 2026</span>
+                        </div>
+                        <h4 class="font-bold text-slate-800 text-sm truncate">Planner Anual Capa Dura 2026</h4>
+                        <p class="text-xs text-slate-400 mt-1 line-clamp-2">Planejamento financeiro, metas e folha de adesivos.</p>
+                        <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
+                            <div>
+                                <span class="text-[10px] font-bold text-slate-400 block uppercase">Preço</span>
+                                <span class="text-base font-extrabold text-slate-900">R$ 68,00</span>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-[10px] font-bold text-slate-400 block uppercase">Estoque</span>
+                                <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-xl inline-block">30 un</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 8: Mini Chaveiro -->
+                    <div class="product-card bg-white rounded-3xl p-5 border border-pink-100/80 shadow-soft hover:shadow-lg transition-all group" data-category="pelucia" data-name="mini chaveiro ursinho pelucia">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="bg-plush-100 text-plush-600 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">
+                                🧸 Pelúcia
+                            </span>
+                            <span class="text-[11px] font-semibold text-slate-400">#PEL-019</span>
+                        </div>
+                        <div class="w-full h-40 gradient-card-pink rounded-2xl flex items-center justify-center mb-4 relative overflow-hidden group-hover:scale-[1.02] transition-transform">
+                            <i class="fa-solid fa-key text-brand-400 text-6xl drop-shadow-sm group-hover:scale-110 transition-transform"></i>
+                            <span class="absolute bottom-2 right-2 bg-white/90 text-slate-700 text-[10px] font-bold px-2 py-0.5 rounded-lg border border-pink-100">12 cm</span>
+                        </div>
+                        <h4 class="font-bold text-slate-800 text-sm truncate">Mini Chaveiro Ursinho Plush</h4>
+                        <p class="text-xs text-slate-400 mt-1 line-clamp-2">Acessório fofo para mochilas, bolsas e chaves.</p>
+                        <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
+                            <div>
+                                <span class="text-[10px] font-bold text-slate-400 block uppercase">Preço</span>
+                                <span class="text-base font-extrabold text-slate-900">R$ 19,90</span>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-[10px] font-bold text-slate-400 block uppercase">Estoque</span>
+                                <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-xl inline-block">60 un</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer class="pt-6 pb-2 text-center text-xs font-medium text-slate-400 border-t border-pink-100/60">
+                &copy; 2026 Papelaria Coité. Todos os direitos reservados.
+            </footer>
+
+        </main>
+    </div>
+
+    <!-- Modal: Adicionar Novo Produto -->
+    <div id="addProductModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden transition-opacity">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-pink-100 transform transition-all scale-95 opacity-0 modal-content">
+            <div class="flex justify-between items-center pb-4 border-b border-slate-100">
+                <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                    <i class="fa-solid fa-circle-plus text-brand-500"></i> Cadastrar Novo Produto
+                </h3>
+                <button onclick="closeAddProductModal()" class="text-slate-400 hover:text-slate-600 p-1">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <form id="addProductForm" onsubmit="handleAddProduct(event)" class="space-y-4 mt-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Nome do Produto</label>
+                    <input type="text" id="prodName" required placeholder="Ex: Caderno Universitario Pastel" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:border-brand-500 focus:bg-white outline-none">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Categoria</label>
+                        <select id="prodCategory" required class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:border-brand-500 focus:bg-white outline-none">
+                            <option value="papelaria">✏️ Papelaria</option>
+                            <option value="pelucia">🧸 Pelúcia</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Preço (R$)</label>
+                        <input type="number" step="0.01" id="prodPrice" required placeholder="29.90" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:border-brand-500 focus:bg-white outline-none">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Estoque Inicial</label>
+                        <input type="number" id="prodStock" required placeholder="10" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:border-brand-500 focus:bg-white outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Ícone Ilustrativo</label>
+                        <select id="prodIcon" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:border-brand-500 focus:bg-white outline-none">
+                            <option value="fa-heart">❤️ Coração</option>
+                            <option value="fa-book">📚 Livro</option>
+                            <option value="fa-star">⭐ Estrela</option>
+                            <option value="fa-paw">🐾 Pata/Pelúcia</option>
+                            <option value="fa-pen">🖋️ Caneta</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Descrição Curta</label>
+                    <textarea id="prodDesc" rows="2" placeholder="Detalhes do produto..." class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:border-brand-500 focus:bg-white outline-none"></textarea>
+                </div>
+
+                <div class="pt-2 flex items-center justify-end gap-3">
+                    <button type="button" onclick="closeAddProductModal()" class="px-4 py-2.5 text-xs font-bold text-slate-500 hover:bg-slate-100 rounded-xl transition-all">Cancelar</button>
+                    <button type="submit" class="px-5 py-2.5 bg-brand-500 hover:bg-brand-600 text-white text-xs font-bold rounded-xl shadow-md shadow-brand-500/20 transition-all">Salvar Produto</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Sidebar Toggle Mobile
+        const sidebar = document.getElementById('sidebar');
+        const openSidebarBtn = document.getElementById('openSidebar');
+        const closeSidebarBtn = document.getElementById('closeSidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+        function toggleSidebar() {
+            sidebar.classList.toggle('-translate-x-full');
+            sidebarOverlay.classList.toggle('hidden');
+        }
+
+        openSidebarBtn.addEventListener('click', toggleSidebar);
+        closeSidebarBtn.addEventListener('click', toggleSidebar);
+        sidebarOverlay.addEventListener('click', toggleSidebar);
+
+        // Notifications Dropdown Toggle
+        function toggleNotifications() {
+            const menu = document.getElementById('notifMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Close notifications when clicking outside
+        document.addEventListener('click', function(e) {
+            const notifBtn = document.getElementById('notifBtn');
+            const notifMenu = document.getElementById('notifMenu');
+            if (notifBtn && notifMenu && !notifBtn.contains(e.target) && !notifMenu.contains(e.target)) {
+                notifMenu.classList.add('hidden');
+            }
+        });
+
+        // Category Filter Logic
+        function filterCategory(category) {
+            // Update active tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            const activeTab = document.getElementById(`tab-${category}`);
+            if (activeTab) activeTab.classList.add('active');
+
+            // Filter product cards
+            const cards = document.querySelectorAll('.product-card');
+            cards.forEach(card => {
+                const cardCat = card.getAttribute('data-category');
+                if (category === 'todos' || cardCat === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Live Search Filter Logic
+        function filterProducts() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            const cards = document.querySelectorAll('.product-card');
+
+            cards.forEach(card => {
+                const name = card.getAttribute('data-name');
+                if (name.includes(query)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Add Product Modal Toggle
+        const modal = document.getElementById('addProductModal');
+        const modalContent = modal.querySelector('.modal-content');
+
+        function openAddProductModal() {
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modalContent.classList.remove('scale-95', 'opacity-0');
+                modalContent.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+        function closeAddProductModal() {
+            modalContent.classList.remove('scale-100', 'opacity-100');
+            modalContent.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 200);
+        }
+
+        // Handle Add New Product Form Submit
+        function handleAddProduct(e) {
+            e.preventDefault();
+            const name = document.getElementById('prodName').value;
+            const category = document.getElementById('prodCategory').value;
+            const price = parseFloat(document.getElementById('prodPrice').value).toFixed(2).replace('.', ',');
+            const stock = document.getElementById('prodStock').value;
+            const icon = document.getElementById('prodIcon').value;
+            const desc = document.getElementById('prodDesc').value || 'Produto cadastrado recentemente no estoque.';
+
+            const grid = document.getElementById('productsGrid');
+            
+            // Build new product HTML element dynamically
+            const isPapelaria = category === 'papelaria';
+            const catLabel = isPapelaria ? '✏️ Papelaria' : '🧸 Pelúcia';
+            const catBadgeClass = isPapelaria ? 'bg-brand-100 text-brand-600' : 'bg-plush-100 text-plush-600';
+            const bgGradientClass = isPapelaria ? 'gradient-card-pink' : 'gradient-card-purple';
+            const iconColorClass = isPapelaria ? 'text-brand-400' : 'text-plush-500';
+            const sku = '#' + (isPapelaria ? 'PAP' : 'PEL') + '-' + Math.floor(100 + Math.random() * 900);
+
+            const newCard = document.createElement('div');
+            newCard.className = 'product-card bg-white rounded-3xl p-5 border border-pink-100/80 shadow-soft hover:shadow-lg transition-all group';
+            newCard.setAttribute('data-category', category);
+            newCard.setAttribute('data-name', name.toLowerCase());
+
+            newCard.innerHTML = `
+                <div class="flex items-center justify-between mb-3">
+                    <span class="${catBadgeClass} text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">
+                        ${catLabel}
+                    </span>
+                    <span class="text-[11px] font-semibold text-slate-400">${sku}</span>
+                </div>
+                <div class="w-full h-40 ${bgGradientClass} rounded-2xl flex items-center justify-center mb-4 relative overflow-hidden group-hover:scale-[1.02] transition-transform">
+                    <i class="fa-solid ${icon} ${iconColorClass} text-6xl drop-shadow-sm group-hover:scale-110 transition-transform"></i>
+                    <span class="absolute bottom-2 right-2 bg-white/90 text-slate-700 text-[10px] font-bold px-2 py-0.5 rounded-lg border border-pink-100">Novo</span>
+                </div>
+                <h4 class="font-bold text-slate-800 text-sm truncate">${name}</h4>
+                <p class="text-xs text-slate-400 mt-1 line-clamp-2">${desc}</p>
+                <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
+                    <div>
+                        <span class="text-[10px] font-bold text-slate-400 block uppercase">Preço</span>
+                        <span class="text-base font-extrabold text-slate-900">R$ ${price}</span>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-[10px] font-bold text-slate-400 block uppercase">Estoque</span>
+                        <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-xl inline-block">${stock} un</span>
+                    </div>
+                </div>
+            `;
+
+            grid.prepend(newCard);
+            closeAddProductModal();
+            document.getElementById('addProductForm').reset();
+            showToast(`Produto "${name}" cadastrado com sucesso!`);
+        }
+
+        // Custom Toast Notification System (replaces alert)
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.className = 'fixed bottom-6 right-6 bg-slate-900 text-white px-5 py-3.5 rounded-2xl shadow-2xl z-50 transform transition-all translate-y-full opacity-0 flex items-center gap-3 text-sm font-semibold border border-slate-700';
+            toast.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400 text-lg"></i> ${message}`;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-full', 'opacity-0');
+            }, 10);
+
+            setTimeout(() => {
+                toast.classList.add('translate-y-full', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        }
+    </script>
+</body>
+</html>
+```
